@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { ThemeProvider } from '@/components/ThemeProvider'
 import Navbar from '@/components/Navbar'
 
 export const metadata: Metadata = {
@@ -14,12 +13,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className="antialiased selection:bg-chic-500 selection:text-white">
-        <ThemeProvider>
-          <Navbar />
-          <main>{children}</main>
-        </ThemeProvider>
+    <html lang="fr">
+      <body className="antialiased bg-[#FAF3F0] text-[#2C1820] selection:bg-[#C86D7D] selection:text-white min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   )

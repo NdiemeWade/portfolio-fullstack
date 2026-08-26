@@ -1,69 +1,65 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Sparkles, Code2, Database, Brain } from 'lucide-react'
+import { Sparkles, ArrowRight } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 lg:py-32 bg-chic-50 dark:bg-chic-900 transition-colors">
-      {/* Background Accent Gradients */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-chic-200/40 dark:bg-chic-800/30 rounded-full blur-3xl -z-10 pointer-events-none" />
+    <section className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-left">
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl">
-          
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-chic-100 dark:bg-chic-800 border border-chic-200 dark:border-chic-700 text-chic-800 dark:text-chic-200 text-xs font-medium mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-chic-600 dark:text-chic-500" />
-            <span>Étudiante en Informatique @ Epitech Nancy</span>
-          </div>
+      {/* Badge Étudiante */}
+      <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white border border-[#F0D3CE] shadow-xs mb-8">
+        <Sparkles className="w-4 h-4 text-[#C86D7D]" />
+        <span className="text-xs sm:text-sm font-semibold text-[#2C1820] tracking-wide">
+          Étudiante en Bachelor Informatique @ Epitech Nancy
+        </span>
+      </div>
 
-          {/* Title */}
-          <h1 className="text-4xl sm:text-6xl font-serif font-bold text-chic-900 dark:text-chic-50 tracking-tight leading-tight mb-6">
-            Développeuse Full-Stack & Passionnée d'IA<span className="text-chic-600 dark:text-chic-500">.</span>
-          </h1>
+      {/* Titre Principal (Textes sombres ultra lisibles) */}
+      <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-[#2C1820] leading-tight mb-6">
+        Développeuse Full-Stack <br className="hidden sm:block" />
+        & Passionnée d'IA<span className="text-[#C86D7D]">.</span>
+      </h1>
 
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-chic-800/80 dark:text-chic-200/80 leading-relaxed mb-8">
-            Conception d'applications web modernes, robustes et élégantes. Spécialisée en React, Next.js, Node.js et l'intégration de solutions IA.
-          </p>
+      {/* Description */}
+      <p className="max-w-2xl text-lg text-[#7A5C66] leading-relaxed mb-10">
+        Bienvenue sur mon portfolio. Je conçois des applications web modernes, robustes et évolutives, en explorant l'ingénierie logicielle et la science des données.
+      </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-4 mb-12">
-            <Link
-              href="/projects"
-              className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-chic-600 hover:bg-chic-500 dark:bg-chic-500 dark:hover:bg-chic-600 text-white font-medium shadow-md hover:shadow-lg transition-all"
-            >
-              <span>Voir mes projets</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+      {/* Boutons d'action */}
+      <div className="flex flex-wrap items-center gap-4 mb-16">
+        <Link
+          href="/projects"
+          className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-full bg-[#C86D7D] text-white font-medium hover:bg-[#B55869] shadow-md hover:shadow-lg transition-all"
+        >
+          <span>Voir mes projets</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
 
-            <Link
-              href="/#contact"
-              className="px-6 py-3 rounded-full bg-chic-100 dark:bg-chic-800 hover:bg-chic-200 dark:hover:bg-chic-700 text-chic-900 dark:text-chic-50 font-medium border border-chic-200/60 dark:border-chic-700 transition-all"
-            >
-              Me contacter
-            </Link>
-          </div>
+        <Link
+          href="#contact"
+          className="inline-flex items-center px-6 py-3.5 rounded-full bg-white text-[#2C1820] font-medium border border-[#F0D3CE] hover:border-[#C86D7D] hover:text-[#C86D7D] shadow-xs transition-all"
+        >
+          Me contacter
+        </Link>
+      </div>
 
-          {/* Quick Skill Tags */}
-          <div className="pt-8 border-t border-chic-200/60 dark:border-chic-800/80 flex flex-wrap gap-6 text-sm text-chic-800/70 dark:text-chic-200/70">
-            <div className="flex items-center space-x-2">
-              <Code2 className="w-4 h-4 text-chic-600 dark:text-chic-500" />
-              <span>Full-Stack Web</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Database className="w-4 h-4 text-chic-600 dark:text-chic-500" />
-              <span>Data & Supabase</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Brain className="w-4 h-4 text-chic-600 dark:text-chic-500" />
-              <span>Intelligence Artificielle</span>
-            </div>
-          </div>
-
+      {/* Badges du bas */}
+      <div className="pt-8 border-t border-[#F0D3CE]/80 flex flex-wrap gap-6 text-sm font-medium text-[#7A5C66]">
+        <div className="flex items-center space-x-2">
+          <span className="text-[#C86D7D] font-mono font-bold">&lt;/&gt;</span>
+          <span>Full-Stack Web</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-[#C86D7D]">🗄️</span>
+          <span>Data & Backend</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-[#C86D7D]">🧠</span>
+          <span>Intelligence Artificielle</span>
         </div>
       </div>
+
     </section>
   )
 }
