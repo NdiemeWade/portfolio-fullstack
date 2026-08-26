@@ -45,7 +45,7 @@ export default function Navbar() {
         {/* Actions (CV + Socials + Theme Toggle) */}
         <div className="hidden sm:flex items-center space-x-3">
           <a
-            href="/cv.pdf"
+            href="/CV_Ndieme_Wade.pdf"
             target="_blank"
             download="CV_Ndieme_Wade.pdf"
             className="flex items-center space-x-1.5 px-4 py-2 text-sm font-medium text-white bg-chic-600 hover:bg-chic-500 dark:bg-chic-500 dark:hover:bg-chic-600 rounded-full shadow-sm hover:shadow transition-all"
