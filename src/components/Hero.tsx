@@ -1,65 +1,74 @@
 'use client'
 
 import Link from 'next/link'
-import { Sparkles, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Hero() {
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-left">
-      
-      {/* Badge Étudiante */}
-      <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white border border-[#F0D3CE] shadow-xs mb-8">
-        <Sparkles className="w-4 h-4 text-[#C86D7D]" />
-        <span className="text-xs sm:text-sm font-semibold text-[#2C1820] tracking-wide">
-          Étudiante en Bachelor Informatique @ Epitech Nancy
-        </span>
-      </div>
+    <section id="home" className="relative w-full max-w-6xl mx-auto pt-36 pb-20 px-4 sm:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Colonne Gauche */}
+        <div className="lg:col-span-7 space-y-6">
+          
+          {/* Badge bien visible */}
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-pink-50 border-2 border-pink-300 text-pink-900 shadow-sm">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-pink-600"></span>
+            </span>
+            <span className="text-xs font-mono font-bold">
+              À la recherche d'opportunités en Dév & IA
+            </span>
+          </div>
 
-      {/* Titre Principal (Textes sombres ultra lisibles) */}
-      <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-[#2C1820] leading-tight mb-6">
-        Développeuse Full-Stack <br className="hidden sm:block" />
-        & Passionnée d'IA<span className="text-[#C86D7D]">.</span>
-      </h1>
+          <h1 className="text-4xl sm:text-6xl font-serif font-extrabold text-[#231118] leading-tight">
+            Développeuse Full-Stack <br />
+            <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              & Passionnée d'IA.
+            </span>
+          </h1>
 
-      {/* Description */}
-      <p className="max-w-2xl text-lg text-[#7A5C66] leading-relaxed mb-10">
-        Bienvenue sur mon portfolio. Je conçois des applications web modernes, robustes et évolutives, en explorant l'ingénierie logicielle et la science des données.
-      </p>
+          <p className="text-sm sm:text-base font-mono text-[#5C424E] leading-relaxed max-w-xl">
+            Étudiante en Bachelor Informatique à Epitech Nancy. Je conçois des applications web modernes, robustes et axées sur l'intelligence artificielle.
+          </p>
 
-      {/* Boutons d'action */}
-      <div className="flex flex-wrap items-center gap-4 mb-16">
-        <Link
-          href="/projects"
-          className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-full bg-[#C86D7D] text-white font-medium hover:bg-[#B55869] shadow-md hover:shadow-lg transition-all"
-        >
-          <span>Voir mes projets</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-
-        <Link
-          href="#contact"
-          className="inline-flex items-center px-6 py-3.5 rounded-full bg-white text-[#2C1820] font-medium border border-[#F0D3CE] hover:border-[#C86D7D] hover:text-[#C86D7D] shadow-xs transition-all"
-        >
-          Me contacter
-        </Link>
-      </div>
-
-      {/* Badges du bas */}
-      <div className="pt-8 border-t border-[#F0D3CE]/80 flex flex-wrap gap-6 text-sm font-medium text-[#7A5C66]">
-        <div className="flex items-center space-x-2">
-          <span className="text-[#C86D7D] font-mono font-bold">&lt;/&gt;</span>
-          <span>Full-Stack Web</span>
+          <div className="flex flex-wrap gap-4 pt-2">
+            <Link
+              href="#projects"
+              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-mono text-xs font-bold shadow-md hover:shadow-pink-500/20 transition-all"
+            >
+              Voir mes projets →
+            </Link>
+            <Link
+              href="#contact"
+              className="px-6 py-3.5 rounded-xl bg-white border-2 border-pink-200 text-[#231118] font-mono text-xs font-bold hover:border-pink-400 hover:bg-pink-50/50 transition-all shadow-xs"
+            >
+              Me contacter
+            </Link>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <span className="text-[#C86D7D]">🗄️</span>
-          <span>Data & Backend</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <span className="text-[#C86D7D]">🧠</span>
-          <span>Intelligence Artificielle</span>
-        </div>
-      </div>
 
+        {/* Colonne Droite : Photo réelle */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end">
+          <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-3xl p-2 bg-gradient-to-b from-pink-300 via-purple-300 to-pink-100 shadow-xl">
+            <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
+              <Image
+                src="/photo.jpg"
+                alt="Ndiémé Wade"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-white/90 backdrop-blur-md border border-pink-200 text-center shadow-md">
+                <p className="text-xs font-serif font-bold text-[#231118]">Ndiémé Wade</p>
+                <p className="text-[10px] font-mono font-medium text-pink-700">Epitech Nancy • France</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
   )
 }

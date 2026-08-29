@@ -1,16 +1,32 @@
+'use client'
+
 export default function About() {
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#F0D3CE]/60">
-      <h2 className="text-3xl font-serif font-bold text-[#2C1820] mb-6">
-        À propos<span className="text-[#C86D7D]">.</span>
-      </h2>
-      <div className="bg-white p-8 rounded-3xl border border-[#F0D3CE] shadow-xs max-w-3xl">
-        <p className="text-[#7A5C66] leading-relaxed mb-4">
-          Étudiante en Bachelor Informatique à Epitech Nancy, je me passionne pour le développement full-stack et les architectures axées sur la data et l'intelligence artificielle.
-        </p>
-        <p className="text-[#7A5C66] leading-relaxed">
-          Mon objectif est d'associer rigueur logicielle et solutions innovantes pour concevoir des produits web complets, performants et utiles.
-        </p>
+    <section id="about" className="w-full bg-white border-y border-pink-200/60 py-20 px-4 sm:px-8">
+      <div className="max-w-6xl mx-auto space-y-8">
+        
+        {/* TITRE PRINCIPAL EN DEHORS DE LA CARTE */}
+        <div className="space-y-1">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-pink-600 block">
+            RACONTER MON PARCOURS
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-[#231118]">
+            À propos de moi<span className="text-pink-600">.</span>
+          </h2>
+        </div>
+
+        {/* CARTE CONTENANT LE TEXTE DE PRÉSENTATION */}
+        <div className="bg-gradient-to-br from-pink-50/70 via-purple-50/40 to-white rounded-3xl p-8 sm:p-12 border-2 border-pink-200 shadow-sm">
+          <div className="space-y-4 max-w-3xl text-sm sm:text-base font-mono text-[#5C424E] leading-relaxed">
+            <p>
+              Étudiante en Bachelor Informatique à Epitech Nancy, je me passionne pour le développement full-stack et les architectures axées sur la data et l'intelligence artificielle.
+            </p>
+            <p>
+              Mon objectif est d'associer rigueur logicielle et solutions innovantes pour concevoir des applications web complètes, performantes et intuitives.
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
   )

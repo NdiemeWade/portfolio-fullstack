@@ -1,93 +1,107 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@supabase/supabase-js'
-import { Project } from '@/types/project'
-import ProjectCard from './ProjectCard'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-export default function ProjectsSection() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(2) // Récupère uniquement 2 projets pour l'accueil
-
-        if (error) throw error
-
-        if (data) {
-          const formatted: Project[] = data.map((item) => ({
-            id: item.id,
-            title: item.title,
-            category: item.category || 'Web',
-            shortDescription: item.short_description || '',
-            image: item.image || '/placeholder-project.png',
-            technologies: item.technologies || [],
-            githubUrl: item.github_url,
-            demoUrl: item.demo_url,
-            context: item.context,
-            problem: item.problem,
-            solution: item.solution,
-            role: item.role,
-            challenges: item.challenges,
-            learnings: item.learnings,
-            results: item.results,
-          }))
-          setProjects(formatted)
-        }
-      } catch (err) {
-        console.error('Erreur Supabase :', err)
-      } finally {
-        setLoading(false)
-      }
+const toArray = (val: any): string[] => {
+  if (!val) return []
+  if (Array.isArray(val)) return val
+  if (typeof val === 'string') {
+    try {
+      const parsed = JSON.parse(val)
+      if (Array.isArray(parsed)) return parsed
+    } catch {
+      return val.split(',').map((s) => s.trim()).filter(Boolean)
     }
+  }
+  return []
+}
 
-    fetchProjects()
-  }, [])
+export default function ProjectsSection({ projects = [] }: { projects?: any[] }) {
+  const hasProjects = Array.isArray(projects) && projects.length > 0
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#F0D3CE]/60">
-      
-      {/* En-tête */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-        <div>
-          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#C86D7D] mb-2 block">
-            SELECTED WORK
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#2C1820]">
-            Featured Projects<span className="text-[#C86D7D]">.</span>
-          </h2>
+    <section id="projects" className="w-full bg-[#FAF8F5] py-20 px-4 sm:px-8">
+      <div className="max-w-6xl mx-auto space-y-10">
+        
+        {/* TITRE PRINCIPAL EN DEHORS DES CARTES */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-pink-200 pb-6">
+          <div className="space-y-1">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-pink-600 block">
+              RÉALISATIONS
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-serif font-extrabold text-[#231118]">
+              Mes Projets<span className="text-pink-600">.</span>
+            </h2>
+          </div>
+
+          <Link
+            href="/projects"
+            className="text-xs font-mono font-bold text-pink-700 hover:text-pink-900 underline underline-offset-4"
+          >
+            Tous les projets →
+          </Link>
         </div>
 
-        <Link
-          href="/projects"
-          className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white border border-[#F0D3CE] text-[#2C1820] text-sm font-medium hover:border-[#C86D7D] hover:text-[#C86D7D] transition-all shadow-xs"
-        >
-          Voir tous les projets →
-        </Link>
+        {/* AFFICHAGE DES PROJETS */}
+        {!hasProjects ? (
+          <div className="p-8 rounded-3xl bg-white border-2 border-pink-200 text-center font-mono text-xs text-[#5C424E]">
+            Aucun projet chargé pour le moment.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {projects.map((p, index) => {
+              const techs = toArray(p.technologies || p.tech_stack || p.Technologies)
+              const title = p.title || p.Titre || p.name || 'Projet sans titre'
+              const category = p.category || p.Categorie || 'Projet'
+              const description = p.description || p.Description || p.overview
+
+              return (
+                <div
+                  key={p.id || index}
+                  className="bg-white rounded-3xl p-8 border-2 border-pink-200 shadow-md hover:border-pink-400 transition-all flex flex-col justify-between space-y-4"
+                >
+                  <div className="space-y-3">
+                    <span className="inline-block text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-pink-100 text-pink-800 border border-pink-300">
+                      {category}
+                    </span>
+                    <h3 className="text-2xl font-serif font-bold text-[#231118]">{title}</h3>
+                    {description && (
+                      <p className="text-xs font-mono text-[#5C424E] leading-relaxed line-clamp-3">
+                        {description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-4 pt-2">
+                    {techs.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {techs.map((t, i) => (
+                          <span
+                            key={i}
+                            className="text-[10px] font-mono px-2.5 py-1 rounded-md bg-purple-50 text-purple-900 border border-purple-200/80"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {p.id && (
+                      <Link
+                        href={`/projects/${p.id}`}
+                        className="inline-block text-xs font-mono font-bold text-pink-600 hover:text-pink-800"
+                      >
+                        Voir le projet →
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
       </div>
-
-      {/* Grille limitée à 2 projets */}
-      {loading ? (
-        <p className="text-[#7A5C66] text-sm animate-pulse">Chargement des projets...</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      )}
-
     </section>
   )
 }

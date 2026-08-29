@@ -1,40 +1,37 @@
-import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { NextResponse } from 'next/server'
+import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message } = await request.json();
+    const { name, email, message } = await request.json()
 
     if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: 'Tous les champs sont requis.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Tous les champs sont requis.' }, { status: 400 })
     }
 
-    // Envoi de l'e-mail via Resend vers ton adresse Outlook
+    // Envoi du mail vers ta boîte Outlook
     await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: 'ndieme.wade@outlook.fr',
       subject: `Nouveau message de ${name} via le Portfolio`,
       replyTo: email,
       html: `
-        <h2>Nouveau message depuis ton Portfolio</h2>
-        <p><strong>Nom :</strong> ${name}</p>
-        <p><strong>Email :</strong> ${email}</p>
-        <p><strong>Message :</strong></p>
-        <p style="white-space: pre-wrap;">${message}</p>
+        <div style="font-family: sans-serif; padding: 20px; color: #2C1820;">
+          <h2 style="color: #C86D7D;">Nouveau message depuis ton Portfolio</h2>
+          <p><strong>Nom :</strong> ${name}</p>
+          <p><strong>Email :</strong> ${email}</p>
+          <hr style="border: none; border-top: 1px solid #F0D3CE; margin: 20px 0;" />
+          <p><strong>Message :</strong></p>
+          <p style="white-space: pre-wrap; background-color: #FAF3F0; padding: 15px; rounded: 8px;">${message}</p>
+        </div>
       `,
-    });
+    })
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Erreur lors de l’envoi :', error);
-    return NextResponse.json(
-      { error: 'Une erreur est survenue lors de l’envoi du message.' },
-      { status: 500 }
-    );
+    console.error('Erreur d\'envoi email :', error)
+    return NextResponse.json({ error: 'Échec de l\'envoi du message.' }, { status: 500 })
   }
 }

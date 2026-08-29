@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import './globals.css'
 import Navbar from '@/components/Navbar'
+import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Ndiémé Wade | Software Engineering & AI Student',
-  description: 'Portfolio de Ndiémé Wade, élève ingénieure en informatique à Epitech Nancy.',
+  title: 'Portfolio | Ndiémé Wade',
+  description: 'Développeuse Full-Stack & Passionnée d IA',
 }
 
 export default function RootLayout({
@@ -14,9 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className="antialiased bg-[#FAF3F0] text-[#2C1820] selection:bg-[#C86D7D] selection:text-white min-h-screen flex flex-col">
+      <body className="bg-[#FAF4F7] text-[#2C1820] antialiased">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        {children}
       </body>
     </html>
   )

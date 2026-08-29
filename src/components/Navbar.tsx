@@ -12,7 +12,7 @@ export default function Navbar() {
           Ndiémé<span className="text-[#C86D7D]">.</span>
         </Link>
 
-        {/* Navigation avec les '/' devant chaque ancre pour fonctionner depuis n'importe quelle page */}
+        {/* Navigation */}
         <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-[#7A5C66]">
           <Link href="/" className="hover:text-[#2C1820] transition-colors">
             Home
@@ -26,7 +26,8 @@ export default function Navbar() {
           <Link href="/projects" className="hover:text-[#2C1820] transition-colors">
             Projets
           </Link>
-          <Link href="/#skills" className="hover:text-[#2C1820] transition-colors">
+          {/* Redirection vers la page dédiée /skills */}
+          <Link href="/skills" className="hover:text-[#2C1820] transition-colors font-semibold text-[#2C1820]">
             Compétences
           </Link>
           <Link href="/#contact" className="hover:text-[#2C1820] transition-colors">
