@@ -3,11 +3,41 @@
 import { useState } from 'react'
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    setStatus(null)
+
+    const formData = new FormData(e.currentTarget)
+    const body = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    }
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        setStatus({ type: 'success', msg: 'Message envoyé avec succès !' })
+        ;(e.target as HTMLFormElement).reset()
+      } else {
+        setStatus({ type: 'error', msg: data.error || "Erreur lors de l'envoi." })
+      }
+    } catch {
+      setStatus({ type: 'error', msg: 'Erreur réseau ou serveur.' })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -43,6 +73,7 @@ export default function Contact() {
               <label className="block text-xs font-mono font-bold text-[#231118] mb-1">Nom complet</label>
               <input
                 type="text"
+                name="name"
                 required
                 placeholder="Ton nom"
                 className="w-full px-4 py-3 rounded-xl bg-white border border-pink-200 text-xs font-mono text-[#231118] focus:outline-none focus:border-pink-500"
@@ -52,6 +83,7 @@ export default function Contact() {
               <label className="block text-xs font-mono font-bold text-[#231118] mb-1">Adresse email</label>
               <input
                 type="email"
+                name="email"
                 required
                 placeholder="ton.email@exemple.com"
                 className="w-full px-4 py-3 rounded-xl bg-white border border-pink-200 text-xs font-mono text-[#231118] focus:outline-none focus:border-pink-500"
@@ -61,6 +93,7 @@ export default function Contact() {
               <label className="block text-xs font-mono font-bold text-[#231118] mb-1">Message</label>
               <textarea
                 rows={4}
+                name="message"
                 required
                 placeholder="Ton message..."
                 className="w-full px-4 py-3 rounded-xl bg-white border border-pink-200 text-xs font-mono text-[#231118] focus:outline-none focus:border-pink-500 resize-none"
@@ -68,14 +101,15 @@ export default function Contact() {
             </div>
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-mono text-xs font-bold shadow-md hover:from-pink-700 hover:to-purple-700 transition-all"
+              disabled={loading}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-mono text-xs font-bold shadow-md hover:from-pink-700 hover:to-purple-700 transition-all disabled:opacity-50"
             >
-              Envoyer le message →
+              {loading ? 'Envoi en cours...' : 'Envoyer le message →'}
             </button>
 
-            {submitted && (
-              <p className="text-xs font-mono text-emerald-700 font-bold text-center pt-2">
-                ✓ Message envoyé avec succès !
+            {status && (
+              <p className={`text-xs font-mono font-bold text-center pt-2 ${status.type === 'success' ? 'text-emerald-700' : 'text-red-600'}`}>
+                {status.type === 'success' ? '✓ ' : '✕ '} {status.msg}
               </p>
             )}
           </form>
