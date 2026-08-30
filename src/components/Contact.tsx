@@ -31,10 +31,12 @@ export default function Contact() {
         setStatus({ type: 'success', msg: 'Message envoyé avec succès !' })
         ;(e.target as HTMLFormElement).reset()
       } else {
-        setStatus({ type: 'error', msg: data.error || "Erreur lors de l'envoi." })
+        // Affiche l'erreur exacte renvoyée par l'API
+        const details = data.error ? JSON.stringify(data.error) : `Statut HTTP : ${res.status}`
+        setStatus({ type: 'error', msg: `Erreur API : ${details}` })
       }
-    } catch {
-      setStatus({ type: 'error', msg: 'Erreur réseau ou serveur.' })
+    } catch (err: any) {
+      setStatus({ type: 'error', msg: `Erreur réseau : ${err?.message || 'Inconnue'}` })
     } finally {
       setLoading(false)
     }
