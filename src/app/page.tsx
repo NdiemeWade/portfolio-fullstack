@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Hero from '@/components/Hero'
-import About from '@/components/About'
 import StatsSection from '@/components/StatsSection'
 import ProjectsSection from '@/components/ProjectsSection'
 import Skills from '@/components/Skills'
@@ -53,25 +52,20 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       
-      {/* 1. HERO : Rose poudré clair */}
+      {/* 1. HERO */}
       <section className="bg-[#FAF4F7]">
         <Hero />
       </section>
 
-      {/* 2. BARRE DE STATISTIQUES AUTOMATISÉE */}
+      {/* 2. BARRE DE STATISTIQUES */}
       <StatsSection />
 
-      {/* 3. À PROPOS : Blanc pur */}
-      <section className="bg-white py-16 border-b border-[#F472B6]/20">
-        <About />
-      </section>
-
-      {/* 4. PROJETS : Fond rose très léger */}
+      {/* 3. PROJETS */}
       <section className="bg-[#FDF0F5] py-16 border-b border-[#F472B6]/20">
         <ProjectsSection projects={projects || []} />
       </section>
 
-      {/* 5. EXPÉRIENCE : Fond lavande / lilas poudré */}
+      {/* 4. EXPÉRIENCE */}
       <section id="experience" className="bg-[#F5EBF7] py-20 border-b border-[#F472B6]/20">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-8 space-y-8">
           
@@ -147,17 +141,17 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 6. COMPÉTENCES : Blanc pur */}
-      <section className="bg-white py-16 border-b border-[#F472B6]/20">
+      {/* 5. COMPÉTENCES (ID SKILLS AJOUTÉ) */}
+      <section id="skills" className="bg-white py-16 border-b border-[#F472B6]/20">
         <Skills skills={skills || []} />
       </section>
 
-      {/* 7. CONTACT : Rose poudré */}
-      <section className="bg-[#FAF4F7] py-16">
+      {/* 6. CONTACT (ID CONTACT AJOUTÉ) */}
+      <section id="contact" className="bg-[#FAF4F7] py-16">
         <Contact />
       </section>
 
-      {/* 8. FOOTER */}
+      {/* 7. FOOTER */}
       <Footer />
     </main>
   )

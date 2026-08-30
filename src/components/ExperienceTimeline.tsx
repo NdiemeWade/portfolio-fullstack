@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
@@ -15,77 +18,106 @@ const toArray = (val: any): string[] => {
   return [];
 };
 
-export default async function ExperienceTimeline({ limit }: { limit?: number }) {
-  let query = supabase.from('experiences').select('*').order('display_order', { ascending: true });
-  if (limit) query = query.limit(limit);
+export default function ExperienceTimeline() {
+  const [experiences, setExperiences] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const { data: experiences, error } = await query;
+  useEffect(() => {
+    async function fetchExperiences() {
+      const { data, error } = await supabase
+        .from('experiences')
+        .select('*')
+        .order('display_order', { ascending: true });
 
-  if (error) {
-    console.error('Erreur Supabase experiences:', error);
+      if (error) {
+        console.error('Erreur Supabase:', error);
+      } else if (data) {
+        setExperiences(data);
+      }
+      setLoading(false);
+    }
+
+    fetchExperiences();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="py-12 text-center text-xs font-mono text-[#8C5873]">
+        Chargement des expériences...
+      </div>
+    );
   }
 
   return (
-    <div className="relative pl-24 sm:pl-28 space-y-10">
-      <div className="absolute left-[88px] sm:left-[104px] top-3 bottom-3 w-[2px] bg-neutral-200" />
+    <div className="relative border-l-2 border-[#F472B6]/30 ml-4 md:ml-28 space-y-10 pl-6 md:pl-8 pt-4">
+      {experiences.map((exp) => {
+        const title = exp.title || exp.Titre;
+        const company = exp.company || exp.Entreprise;
+        const period = exp.period || exp['point final'];
+        const type = exp.type || 'INTERNSHIP';
+        const technologies = toArray(exp.technologies || exp.Technologies);
 
-      {(experiences || []).map((exp: any) => {
-        const techList = toArray(exp.Technologies || exp.technologies);
-        const period = exp['point final'] || exp.period || '';
-        const yearMatch = period.match(/\b(20\d{2})\b/);
-        const year = yearMatch ? yearMatch[1] : (exp.created_at ? new Date(exp.created_at).getFullYear() : '');
+        const yearMatch = period?.match(/\b(20\d{2})\b/);
+        const displayYear = yearMatch ? yearMatch[0] : '';
 
         return (
-          <div key={exp.id} className="relative flex items-start group">
-            <div className="absolute -left-24 sm:-left-28 w-16 text-right top-1 font-mono text-xs text-neutral-400 font-medium">
-              {year}
-            </div>
+          <div key={exp.id} className="relative group">
+            
+            {/* Année sur la gauche (Écrans larges) */}
+            {displayYear && (
+              <span className="hidden md:block absolute -left-32 top-1.5 text-xs font-mono font-bold text-[#8C5873]">
+                {displayYear}
+              </span>
+            )}
 
-            <div className="absolute -left-[17px] sm:-left-[17px] top-1.5 w-6 h-6 rounded-full bg-[#F9F9FB] flex items-center justify-center z-10">
-              <div className="w-3.5 h-3.5 rounded-full bg-blue-600 ring-4 ring-blue-100 group-hover:scale-110 transition-transform" />
-            </div>
+            {/* Puce rose sur la ligne */}
+            <span className="absolute -left-[31px] md:-left-[39px] top-2 w-4 h-4 rounded-full bg-[#EC4899] ring-4 ring-[#FAF4F7] group-hover:scale-125 transition-transform" />
 
-            <div className="w-full bg-white rounded-2xl p-6 sm:p-8 border border-neutral-200/80 shadow-xs hover:shadow-md transition-shadow">
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <span className="uppercase text-[10px] tracking-wider font-semibold px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 border border-blue-100">
-                  {exp.type || 'Expérience'}
+            {/* Carte Expérience */}
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#F472B6]/30 shadow-2xs space-y-4 hover:border-[#EC4899]/60 transition-all">
+              
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="uppercase text-[10px] font-mono tracking-wider font-bold px-2.5 py-1 rounded-md bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/30">
+                  {type}
                 </span>
-                <span className="text-xs font-mono text-neutral-400">
+                <span className="text-xs font-mono text-[#8C5873]">
                   {period}
                 </span>
               </div>
 
-              <h2 className="text-xl font-serif text-neutral-900 font-medium mb-1">
-                {exp.Titre || exp.title}
-              </h2>
-              <p className="text-xs font-mono text-neutral-500 mb-4">
-                {exp.Entreprise || exp.company} {exp.Emplacement ? `· ${exp.Emplacement}` : ''}
-              </p>
-
-              {exp.Description && exp.Description !== 'je ne sais pas' && (
-                <p className="text-sm text-neutral-600 leading-relaxed mb-6 font-light">
-                  {exp.Description}
+              <div>
+                <h3 className="text-2xl font-serif font-bold text-[#2C1820]">
+                  {title}
+                </h3>
+                <p className="text-sm font-mono text-[#8C5873] font-medium mt-0.5">
+                  {company}
                 </p>
-              )}
+              </div>
 
-              {techList.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {techList.map((tech: string, i: number) => (
-                    <span key={i} className="text-xs font-mono bg-neutral-100 text-neutral-600 px-2.5 py-1 rounded-md">
+              {/* Badges de Technologies */}
+              {technologies.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {technologies.map((tech: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="text-xs font-mono bg-[#FAF4F7] text-[#593E4D] border border-[#F472B6]/20 px-3 py-1 rounded-md font-medium"
+                    >
                       {tech}
                     </span>
                   ))}
                 </div>
               )}
 
-              <div>
+              {/* Bouton Voir l'expérience (Route /experiences/ corrigée) */}
+              <div className="pt-2">
                 <Link
                   href={`/experiences/${exp.id}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-700 hover:text-blue-600 border border-neutral-200 hover:border-blue-200 rounded-lg px-3.5 py-2 transition-colors bg-white"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#BE185D] border border-[#F472B6]/30 rounded-xl px-4 py-2 bg-[#FCE7F3]/40 hover:bg-[#FCE7F3] transition-colors"
                 >
-                  View experience →
+                  Voir l'expérience →
                 </Link>
               </div>
+
             </div>
           </div>
         );

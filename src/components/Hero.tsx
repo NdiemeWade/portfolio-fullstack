@@ -35,7 +35,7 @@ export default function Hero() {
 
           <div className="flex flex-wrap gap-4 pt-2">
             <Link
-              href="#projects"
+              href="/projects"
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-mono text-xs font-bold shadow-md hover:shadow-pink-500/20 transition-all"
             >
               Voir mes projets →

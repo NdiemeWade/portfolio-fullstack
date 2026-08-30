@@ -43,44 +43,71 @@ export default async function ExperienceDetailPage({
   const location = exp.location || exp.Emplacement;
   const period = exp.period || exp['point final'];
   const type = exp.type || 'INTERNSHIP';
-  const overview = exp.overview || (exp.Description !== 'je ne sais pas' ? exp.Description : '');
+  const overview = exp.overview || (exp.Description !== 'je no sais pas' ? exp.Description : '');
 
   const responsibilities = toArray(exp.responsibilities || exp.Tâches);
   const achievements = toArray(exp.key_achievements || exp.achievements || exp['Quelque chose']);
   const learned = toArray(exp.what_i_learned || exp.learned);
   const technologies = toArray(exp.technologies || exp.Technologies);
 
+  // LOGIQUE ATTESTATION DE STAGE
+  const certificateUrl = exp.certificate_url || exp.attestation_url;
+  const isInternship = (type || '').toLowerCase().includes('intern') || 
+                       (title || '').toLowerCase().includes('intern');
+
   return (
-    // pt-28 garantit que le bouton "Back to experiences" passe SOUS la Navbar fixe
-    <div className="min-h-screen bg-[#F9F9FB] text-neutral-800 pt-28 pb-16 px-4 sm:px-8">
+    <div className="min-h-screen bg-[#FAF7F8] text-[#2C1820] pt-28 pb-16 px-4 sm:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
         
-        {/* BOUTON RETOUR CORRIGÉ */}
+        {/* BOUTON RETOUR HAUT */}
         <div>
           <Link
             href="/experiences"
-            className="inline-flex items-center gap-2 text-xs font-mono text-neutral-700 border border-neutral-200 rounded-lg px-4 py-2 bg-white hover:bg-neutral-50 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#BE185D] border border-[#F472B6]/30 rounded-xl px-4 py-2 bg-white hover:bg-[#FCE7F3]/40 transition-colors shadow-2xs"
           >
-            ← Back to experiences
+            ← Retour aux expériences
           </Link>
         </div>
 
-        {/* EN-TÊTE */}
-        <div>
+        {/* EN-TÊTE PRINCIPAL */}
+        <div className="space-y-3">
           {type && (
-            <span className="uppercase text-[10px] tracking-wider font-semibold px-2.5 py-1 rounded-md bg-blue-100/70 text-blue-600 border border-blue-200/50">
+            <span className="uppercase text-[10px] tracking-wider font-mono font-bold px-2.5 py-1 rounded-md bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/30">
               {type}
             </span>
           )}
-          <h1 className="text-4xl md:text-5xl font-serif text-neutral-900 font-normal mt-4 mb-2">
+
+          <h1 className="text-3xl sm:text-5xl font-serif text-[#2C1820] font-bold">
             {title}
           </h1>
-          <p className="text-lg text-neutral-600 font-serif mb-2">
+
+          <p className="text-lg font-serif text-[#5C404E]">
             {company}
           </p>
-          <p className="text-xs font-mono text-neutral-400 flex items-center gap-1">
+
+          <p className="text-xs font-mono text-[#8C5873]">
             📍 {location} · {period}
           </p>
+
+          {/* BOUTON ATTESTATION DE STAGE */}
+          {isInternship && (
+            <div className="pt-2">
+              {certificateUrl && typeof certificateUrl === 'string' && certificateUrl.trim().toLowerCase().startsWith('http') ? (
+                <a
+                  href={certificateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#BE185D] bg-[#FCE7F3]/50 hover:bg-[#FCE7F3] px-4 py-2 rounded-xl border border-[#F472B6]/30 transition-all shadow-2xs"
+                >
+                  📄 Voir l'attestation de stage ↗
+                </a>
+              ) : (
+                <span className="inline-flex items-center gap-2 text-xs font-mono font-medium text-[#8C5873] bg-[#FAF7F8] px-3.5 py-1.5 rounded-xl border border-[#F472B6]/20">
+                  ⏳ Attestation à venir
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* CONTENU & SIDEBAR */}
@@ -88,10 +115,10 @@ export default async function ExperienceDetailPage({
           <div className="lg:col-span-2 space-y-10">
             {overview && (
               <div>
-                <h3 className="text-lg font-serif text-neutral-900 mb-3 border-b border-neutral-200 pb-2">
+                <h3 className="text-lg font-serif font-bold text-[#2C1820] mb-3 border-b border-[#F472B6]/20 pb-2">
                   Overview
                 </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed font-light">
+                <p className="text-sm text-[#5C404E] leading-relaxed font-light">
                   {overview}
                 </p>
               </div>
@@ -99,13 +126,13 @@ export default async function ExperienceDetailPage({
 
             {responsibilities.length > 0 && (
               <div>
-                <h3 className="text-lg font-serif text-neutral-900 mb-4 border-b border-neutral-200 pb-2">
+                <h3 className="text-lg font-serif font-bold text-[#2C1820] mb-4 border-b border-[#F472B6]/20 pb-2">
                   Responsibilities
                 </h3>
                 <ul className="space-y-3">
                   {responsibilities.map((item: string, idx: number) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-neutral-600 font-light">
-                      <span className="text-blue-600 font-semibold">→</span>
+                    <li key={idx} className="flex items-start gap-3 text-sm text-[#5C404E] font-light">
+                      <span className="text-[#EC4899] font-bold">→</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -115,14 +142,14 @@ export default async function ExperienceDetailPage({
 
             {achievements.length > 0 && (
               <div>
-                <h3 className="text-lg font-serif text-neutral-900 mb-4 border-b border-neutral-200 pb-2">
+                <h3 className="text-lg font-serif font-bold text-[#2C1820] mb-4 border-b border-[#F472B6]/20 pb-2">
                   Key Achievements
                 </h3>
                 <div className="space-y-3">
                   {achievements.map((item: string, idx: number) => (
                     <div
                       key={idx}
-                      className="p-4 bg-white rounded-xl border-l-4 border-l-blue-600 border border-neutral-200/80 text-sm text-neutral-700 shadow-2xs font-light"
+                      className="p-4 bg-white rounded-xl border-l-4 border-l-[#EC4899] border border-[#F472B6]/30 text-sm text-[#2C1820] shadow-2xs font-light"
                     >
                       {item}
                     </div>
@@ -133,13 +160,13 @@ export default async function ExperienceDetailPage({
 
             {learned.length > 0 && (
               <div>
-                <h3 className="text-lg font-serif text-neutral-900 mb-4 border-b border-neutral-200 pb-2">
+                <h3 className="text-lg font-serif font-bold text-[#2C1820] mb-4 border-b border-[#F472B6]/20 pb-2">
                   What I learned
                 </h3>
                 <ul className="space-y-3">
                   {learned.map((item: string, idx: number) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-neutral-600 font-light">
-                      <span className="text-blue-600 text-xs mt-0.5">◆</span>
+                    <li key={idx} className="flex items-start gap-3 text-sm text-[#5C404E] font-light">
+                      <span className="text-[#EC4899] text-xs mt-0.5">◆</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -150,15 +177,15 @@ export default async function ExperienceDetailPage({
 
           <div className="space-y-6">
             {technologies.length > 0 && (
-              <div className="bg-white p-6 rounded-2xl border border-neutral-200/80 shadow-2xs space-y-3">
-                <h4 className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase">
+              <div className="bg-white p-6 rounded-2xl border border-[#F472B6]/30 shadow-2xs space-y-3">
+                <h4 className="text-[10px] font-mono tracking-widest text-[#BE185D] uppercase font-bold">
                   TECHNOLOGIES
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {technologies.map((tech: string, idx: number) => (
                     <span
                       key={idx}
-                      className="bg-neutral-100 text-neutral-700 text-xs font-mono px-3 py-1.5 rounded-md"
+                      className="bg-[#FCE7F3]/60 text-[#BE185D] border border-[#F472B6]/30 text-xs font-mono px-3 py-1.5 rounded-md font-medium"
                     >
                       {tech}
                     </span>
@@ -167,36 +194,37 @@ export default async function ExperienceDetailPage({
               </div>
             )}
 
-            <div className="bg-white p-6 rounded-2xl border border-neutral-200/80 shadow-2xs space-y-4">
-              <h4 className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase">
+            <div className="bg-white p-6 rounded-2xl border border-[#F472B6]/30 shadow-2xs space-y-4">
+              <h4 className="text-[10px] font-mono tracking-widest text-[#BE185D] uppercase font-bold">
                 DETAILS
               </h4>
               <div className="space-y-3 text-xs font-mono">
                 <div>
-                  <span className="text-neutral-400 block mb-0.5">Company</span>
-                  <span className="text-neutral-800 font-medium">{company}</span>
+                  <span className="text-[#8C5873] block mb-0.5">Company</span>
+                  <span className="text-[#2C1820] font-medium">{company}</span>
                 </div>
-                <div className="border-t border-neutral-100 pt-3">
-                  <span className="text-neutral-400 block mb-0.5">Type</span>
-                  <span className="text-neutral-800 font-medium">{type}</span>
+                <div className="border-t border-[#F472B6]/10 pt-3">
+                  <span className="text-[#8C5873] block mb-0.5">Type</span>
+                  <span className="text-[#BE185D] font-medium uppercase">{type}</span>
                 </div>
-                <div className="border-t border-neutral-100 pt-3">
-                  <span className="text-neutral-400 block mb-0.5">Location</span>
-                  <span className="text-neutral-800 font-medium">{location}</span>
+                <div className="border-t border-[#F472B6]/10 pt-3">
+                  <span className="text-[#8C5873] block mb-0.5">Location</span>
+                  <span className="text-[#2C1820] font-medium">{location}</span>
                 </div>
-                <div className="border-t border-neutral-100 pt-3">
-                  <span className="text-neutral-400 block mb-0.5">Duration</span>
-                  <span className="text-neutral-800 font-medium">{period}</span>
+                <div className="border-t border-[#F472B6]/10 pt-3">
+                  <span className="text-[#8C5873] block mb-0.5">Duration</span>
+                  <span className="text-[#2C1820] font-medium">{period}</span>
                 </div>
               </div>
             </div>
 
+            {/* BOUTON RETOUR BAS */}
             <div>
               <Link
                 href="/experiences"
-                className="w-full flex items-center justify-center gap-2 border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 text-xs font-mono py-3 rounded-xl transition-colors shadow-2xs"
+                className="w-full flex items-center justify-center gap-2 border border-[#F472B6]/30 bg-white hover:bg-[#FCE7F3]/40 text-[#BE185D] text-xs font-mono py-3 rounded-xl transition-colors shadow-2xs font-bold"
               >
-                ← All experiences
+                ← Retour aux expériences
               </Link>
             </div>
           </div>
