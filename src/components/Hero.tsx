@@ -18,7 +18,7 @@ export default function Hero() {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-pink-600"></span>
             </span>
             <span className="text-xs font-mono font-bold">
-              À la recherche d'opportunités en Dév & IA
+              À la recherche d'opportunités en Data & IA
             </span>
           </div>
 
