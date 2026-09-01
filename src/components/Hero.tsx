@@ -54,7 +54,7 @@ export default function Hero() {
           <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-3xl p-2 bg-gradient-to-b from-pink-300 via-purple-300 to-pink-100 shadow-xl">
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
               <Image
-                src="/photo.jpg"
+                src="IMG_4501.jpg"
                 alt="Ndiémé Wade"
                 fill
                 className="object-cover"
