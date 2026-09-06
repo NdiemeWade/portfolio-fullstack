@@ -25,10 +25,10 @@ export default async function AboutPage() {
     .select('*')
     .single()
 
-  const headlineTitle = profile?.headline_title || 'Building the future,'
-  const headlineSubtitle = profile?.headline_subtitle || 'one system at a time.'
-  const bioP1 = profile?.bio_p1 || "Currently in my second year at Epitech Nancy, I'm deeply interested in how software and artificial intelligence can solve complex, real-world problems. My journey started with web development, but I've progressively moved toward data engineering and machine learning — areas where I see the most opportunity to create meaningful impact."
-  const bioP2 = profile?.bio_p2 || "I thrive in environments that push me to learn continuously. Whether it's building a full-stack application, designing a data pipeline, or experimenting with a machine learning model, I approach every challenge with rigor and curiosity."
+  const headlineTitle = profile?.headline_title || 'Construire le futur,'
+  const headlineSubtitle = profile?.headline_subtitle || 'un système à la fois.'
+  const bioP1 = profile?.bio_p1 || "Actuellement en deuxième année à Epitech Nancy, je m'intéresse vivement à la manière dont le logiciel et l'intelligence artificielle peuvent résoudre des problèmes complexes du monde réel. Mon parcours a débuté par le développement web, mais je me suis progressivement orientée vers l'ingénierie des données et le machine learning — des domaines où je vois le plus d'opportunités pour créer un impact significatif."
+  const bioP2 = profile?.bio_p2 || "Je m'épanouis dans des environnements qui me poussent à apprendre en continu. Qu'il s'agisse de concevoir une application full-stack, de structurer un pipeline de données ou d'expérimenter avec un modèle de machine learning, j'aborde chaque défi avec rigueur et curiosité."
   const photoUrl = profile?.image_url || '/profile.png'
   
   const learningList = profile?.currently_learning 
