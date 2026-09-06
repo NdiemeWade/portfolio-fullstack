@@ -93,7 +93,7 @@ export default async function AboutPage() {
             {/* CURRENTLY LEARNING */}
             <div className="pt-4 space-y-3">
               <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#BE185D] block">
-                CURRENTLY LEARNING
+                Actuellement en apprentissage
               </span>
               <div className="flex flex-wrap gap-2">
                 {learningList.map((item, i) => (
