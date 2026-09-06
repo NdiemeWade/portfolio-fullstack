@@ -30,7 +30,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-sm sm:text-base font-mono text-[#5C424E] leading-relaxed max-w-xl">
-            Étudiante en Bachelor Informatique à Epitech Nancy. Je conçois des applications web modernes, robustes et axées sur l'intelligence artificielle.
+            Étudiante en Bachelor Informatique à Epitech Nancy. Je façonne des expériences web robustes et explore le potentiel de l'IA pour créer des outils utiles. Plonge dans mon parcours pour découvrir mes réalisations, mes compétences et ma vision du code.
           </p>
 
           <div className="flex flex-wrap gap-4 pt-2">
