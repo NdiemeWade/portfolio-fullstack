@@ -31,38 +31,39 @@ export default async function AboutPage() {
   const bioP2 = profile?.bio_p2 || "Je m'épanouis dans des environnements qui me poussent à apprendre en continu. Qu'il s'agisse de concevoir une application full-stack, de structurer un pipeline de données ou d'expérimenter avec un modèle de machine learning, j'aborde chaque défi avec rigueur et curiosité."
   const photoUrl = profile?.image_url || '/profil.jpeg'
   
+  // Correction de la vérification de la propriété Supabase
   const learningList = profile?.currently_learning 
     ? toArray(profile.currently_learning) 
     : ['Python ML', 'SQL Advanced', 'TypeScript', 'React', 'Node.js', 'Docker']
 
-  const interestsList = profile?.professional_interests 
-    ? toArray(profile.professional_interests) 
-    : ['Artificial Intelligence', 'Data Engineering', 'Software Architecture', 'Open Source', 'Entrepreneurship']
+  const interestsList = profile?.centres_d_interet_professionnels 
+    ? toArray(profile.centres_d_interet_professionnels) 
+    : ['Intelligence Artificielle', 'Ingénierie des Données', 'Architecture Logicielle', 'Open Source', 'Entrepreneuriat Technologique', 'Développement Full-Stack', 'Cloud Computing']
 
-  const location = profile?.location || 'Nancy, France'
-  const email = profile?.email || 'ndieme.wade@epitech.eu'
-  const status = profile?.status || 'Open to opportunities'
+  const location = profile?.localisation || 'Nancy, France'
+  const email = profile?.email || 'ndieme.wade@epitech.eu' // Mise à jour selon les préférences de contact
+  const status = profile?.status || 'Ouverte aux opportunités'
 
   const howIWorkCards = [
     {
       icon: '⚡',
-      title: 'Bias toward action',
-      description: 'I prefer building over planning. The best way to learn is to ship something and iterate.'
+      title: 'Privilégier l’action à la planification',
+      description: 'Je préfère apprendre en construisant et en itérant plutôt qu’en planifiant à l’infini. Les prototypes rapides m’aident à valider les idées et à progresser plus vite.'
     },
     {
       icon: '🔬',
-      title: 'First-principles thinking',
-      description: 'I try to understand WHY before HOW. Good solutions start with a deep understanding of the problem.'
+      title: 'Réflexion par premiers principes',
+      description: "J'essaie de comprendre le POURQUOI avant le COMMENT. Les bonnes solutions commencent par une compréhension approfondie du problème."
     },
     {
       icon: '📐',
-      title: 'Clean systems',
-      description: 'I care about code quality, documentation, and architecture — not just making it work.'
+      title: 'Systèmes propres',
+      description: "Je me soucie de la qualité du code, de la documentation et de l'architecture — pas seulement de faire fonctionner en sorte que ça fonctionne."
     },
     {
       icon: '🤝',
-      title: 'Collaborative by default',
-      description: 'I believe the best work happens at the intersection of different perspectives and disciplines.'
+      title: 'Collaboration par défaut',
+      description: "Je crois que le meilleur travail naît à l'intersection de perspectives et de disciplines différentes."
     }
   ]
 
@@ -72,7 +73,7 @@ export default async function AboutPage() {
       {/* SECTION PRINCIPALE / ABOUT HERO */}
       <section className="max-w-6xl mx-auto px-4 sm:px-8 pt-12 pb-20">
         <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#BE185D] block mb-4">
-          ABOUT ME
+          A PROPOS DE MOI
         </span>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -112,13 +113,13 @@ export default async function AboutPage() {
                 href="/projects"
                 className="px-6 py-3 text-xs font-mono font-bold text-white bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] hover:from-[#DB2777] hover:to-[#7C3AED] rounded-xl shadow-md transition-all hover:scale-105 active:scale-95"
               >
-                View my work
+                Voir mes projets
               </Link>
               <Link
                 href="/#contact"
                 className="px-6 py-3 text-xs font-mono font-bold text-[#BE185D] bg-white border border-[#F472B6]/40 hover:border-[#EC4899] rounded-xl shadow-sm transition-all hover:scale-105 active:scale-95"
               >
-                Get in touch
+                Me contacter
               </Link>
             </div>
           </div>
@@ -140,7 +141,7 @@ export default async function AboutPage() {
             {/* CARTE DETAILED INFO */}
             <div className="bg-white rounded-3xl p-6 border border-[#F472B6]/30 shadow-sm space-y-4 font-mono text-xs">
               <div className="flex justify-between items-center pb-3 border-b border-[#F472B6]/10">
-                <span className="text-[#8C5873]">Location</span>
+                <span className="text-[#8C5873]">Localisation</span>
                 <span className="font-sans font-bold text-[#2C1820] text-sm">{location}</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-[#F472B6]/10">
@@ -156,7 +157,7 @@ export default async function AboutPage() {
             {/* CARTE PROFESSIONAL INTERESTS */}
             <div className="bg-white rounded-3xl p-6 border border-[#F472B6]/30 shadow-sm space-y-4">
               <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#BE185D] block">
-                PROFESSIONAL INTERESTS
+                Centres d'intérêt professionnels
               </span>
               <ul className="space-y-3">
                 {interestsList.map((interest, i) => (
@@ -178,7 +179,7 @@ export default async function AboutPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-12">
           
           <h2 className="text-3xl sm:text-4xl font-serif text-center font-bold text-[#2C1820]">
-            How I work<span className="text-[#EC4899]">.</span>
+            Ma façon de travailler<span className="text-[#EC4899]">.</span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
