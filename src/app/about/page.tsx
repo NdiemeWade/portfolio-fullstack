@@ -29,7 +29,7 @@ export default async function AboutPage() {
   const headlineSubtitle = profile?.headline_subtitle || 'un système à la fois.'
   const bioP1 = profile?.bio_p1 || "Actuellement en deuxième année à Epitech Nancy, je m'intéresse vivement à la manière dont le logiciel et l'intelligence artificielle peuvent résoudre des problèmes complexes du monde réel. Mon parcours a débuté par le développement web, mais je me suis progressivement orientée vers l'ingénierie des données et le machine learning — des domaines où je vois le plus d'opportunités pour créer un impact significatif."
   const bioP2 = profile?.bio_p2 || "Je m'épanouis dans des environnements qui me poussent à apprendre en continu. Qu'il s'agisse de concevoir une application full-stack, de structurer un pipeline de données ou d'expérimenter avec un modèle de machine learning, j'aborde chaque défi avec rigueur et curiosité."
-  const photoUrl = profile?.image_url || '/profile.png'
+  const photoUrl = profile?.image_url || '/profil.jpeg'
   
   const learningList = profile?.currently_learning 
     ? toArray(profile.currently_learning) 
