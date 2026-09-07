@@ -17,14 +17,13 @@ export default function Experience() {
         </div>
 
         <Link
-          href="/experience"
+          href="/experiences"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-purple-300/20 text-purple-200 text-xs font-mono hover:border-pink-500 hover:text-pink-300 transition-all backdrop-blur-md self-start sm:self-auto"
         >
           Voir tout le parcours →
         </Link>
       </div>
 
-      {/* Carte d'expérience */}
       <div className="relative rounded-3xl bg-[#161224]/80 border border-purple-500/20 p-6 sm:p-8 backdrop-blur-xl hover:border-pink-500/40 transition-all shadow-xl">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
           
@@ -59,7 +58,7 @@ export default function Experience() {
           </div>
 
           <Link
-            href="/experience"
+            href="/experiences"
             className="shrink-0 px-6 py-3 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-300 hover:bg-pink-500 hover:text-white text-xs font-mono transition-all text-center"
           >
             Détails de la mission

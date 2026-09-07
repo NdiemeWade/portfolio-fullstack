@@ -42,14 +42,14 @@ export default function ExperienceTimeline() {
 
   if (loading) {
     return (
-      <div className="py-12 text-center text-xs font-mono text-[#8C5873]">
+      <div className="py-12 text-center text-xs font-mono text-purple-300/60">
         Chargement des expériences...
       </div>
     );
   }
 
   return (
-    <div className="relative border-l-2 border-[#F472B6]/30 ml-4 md:ml-28 space-y-10 pl-6 md:pl-8 pt-4">
+    <div className="relative border-l-2 border-purple-500/30 ml-4 md:ml-28 space-y-10 pl-6 md:pl-8 pt-4">
       {experiences.map((exp) => {
         const title = exp.title || exp.Titre;
         const company = exp.company || exp.Entreprise;
@@ -63,44 +63,40 @@ export default function ExperienceTimeline() {
         return (
           <div key={exp.id} className="relative group">
             
-            {/* Année sur la gauche (Écrans larges) */}
             {displayYear && (
-              <span className="hidden md:block absolute -left-32 top-1.5 text-xs font-mono font-bold text-[#8C5873]">
+              <span className="hidden md:block absolute -left-32 top-1.5 text-xs font-mono font-bold text-pink-400">
                 {displayYear}
               </span>
             )}
 
-            {/* Puce rose sur la ligne */}
-            <span className="absolute -left-[31px] md:-left-[39px] top-2 w-4 h-4 rounded-full bg-[#EC4899] ring-4 ring-[#FAF4F7] group-hover:scale-125 transition-transform" />
+            <span className="absolute -left-[31px] md:-left-[39px] top-2 w-4 h-4 rounded-full bg-[#130F1C] border-2 border-pink-500 group-hover:bg-pink-500 group-hover:scale-125 transition-all" />
 
-            {/* Carte Expérience */}
-            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#F472B6]/30 shadow-2xs space-y-4 hover:border-[#EC4899]/60 transition-all">
+            <div className="bg-[#161224] p-6 sm:p-8 rounded-2xl border border-purple-500/20 shadow-xl space-y-4 hover:border-pink-500/40 transition-all">
               
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="uppercase text-[10px] font-mono tracking-wider font-bold px-2.5 py-1 rounded-md bg-[#FCE7F3] text-[#BE185D] border border-[#F472B6]/30">
+                <span className="uppercase text-[10px] font-mono tracking-wider font-bold px-2.5 py-1 rounded-md bg-pink-500/10 text-pink-300 border border-pink-500/30">
                   {type}
                 </span>
-                <span className="text-xs font-mono text-[#8C5873]">
+                <span className="text-xs font-mono text-purple-300/60">
                   {period}
                 </span>
               </div>
 
               <div>
-                <h3 className="text-2xl font-serif font-bold text-[#2C1820]">
+                <h3 className="text-2xl font-serif font-bold text-white">
                   {title}
                 </h3>
-                <p className="text-sm font-mono text-[#8C5873] font-medium mt-0.5">
+                <p className="text-sm font-mono text-purple-200 font-medium mt-0.5">
                   {company}
                 </p>
               </div>
 
-              {/* Badges de Technologies */}
               {technologies.length > 0 && (
                 <div className="flex flex-wrap gap-2 pt-1">
                   {technologies.map((tech: string, idx: number) => (
                     <span
                       key={idx}
-                      className="text-xs font-mono bg-[#FAF4F7] text-[#593E4D] border border-[#F472B6]/20 px-3 py-1 rounded-md font-medium"
+                      className="text-xs font-mono bg-pink-500/10 text-pink-300 border border-pink-500/30 px-3 py-1 rounded-md font-medium"
                     >
                       {tech}
                     </span>
@@ -108,11 +104,10 @@ export default function ExperienceTimeline() {
                 </div>
               )}
 
-              {/* Bouton Voir l'expérience (Route /experiences/ corrigée) */}
               <div className="pt-2">
                 <Link
                   href={`/experiences/${exp.id}`}
-                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#BE185D] border border-[#F472B6]/30 rounded-xl px-4 py-2 bg-[#FCE7F3]/40 hover:bg-[#FCE7F3] transition-colors"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-bold text-pink-300 border border-pink-500/30 rounded-xl px-4 py-2 bg-pink-500/10 hover:bg-pink-500/20 transition-colors"
                 >
                   Voir l'expérience →
                 </Link>
