@@ -64,7 +64,7 @@ export default async function ExperiencesPage() {
         <div className="relative border-l-2 border-purple-200 ml-4 sm:ml-32 space-y-12 py-4">
           {experiencesList.length === 0 ? (
             <div className="pl-8 text-xs font-mono text-gray-500 bg-white p-6 rounded-2xl border border-purple-100 shadow-sm">
-              Aucune expérience enregistrée pour le moment dans la base de données Supabase.
+              Aucune expérience enregistrée pour le moment.
             </div>
           ) : (
             experiencesList.map((item: any, index: number) => {
