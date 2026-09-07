@@ -4,110 +4,121 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
-const toArray = (val: any): string[] => {
-  if (!val) return [];
-  if (Array.isArray(val)) return val;
-  if (typeof val === 'string') {
-    try {
-      const parsed = JSON.parse(val);
-      if (Array.isArray(parsed)) return parsed;
-    } catch {
-      return val.split(',').map((s) => s.trim()).filter(Boolean);
-    }
-  }
-  return [];
-};
-
 export default function ExperienceSection() {
-  const [latestExp, setLatestExp] = useState<any>(null);
+  const [experiences, setExperiences] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchLatest() {
-      const { data, error } = await supabase
-        .from('experiences')
-        .select('*')
-        .order('display_order', { ascending: true })
-        .limit(1)
-        .single();
+    async function fetchLatestExperiences() {
+      try {
+        // Récupère uniquement les 2 expériences les plus récentes triées par display_order
+        const { data, error } = await supabase
+          .from('experiences')
+          .select('*')
+          .order('display_order', { ascending: true })
+          .limit(2);
 
-      if (!error && data) {
-        setLatestExp(data);
+        if (!error && data) {
+          setExperiences(data);
+        }
+      } catch (err) {
+        console.error('Erreur lors de la récupération des expériences depuis Supabase', err);
       }
       setLoading(false);
     }
-    fetchLatest();
+    fetchLatestExperiences();
   }, []);
 
-  if (loading) return null;
-  if (!latestExp) return null;
+  if (loading) {
+    return (
+      <section id="experience" className="w-full max-w-6xl mx-auto py-20 px-4 sm:px-8 border-t border-purple-200/40">
+        <div className="text-center text-xs font-mono text-gray-400">Chargement des expériences...</div>
+      </section>
+    );
+  }
 
-  const title = latestExp.title || latestExp.Titre || '';
-  const company = latestExp.company || latestExp.Entreprise || '';
-  const location = latestExp.location || latestExp.Emplacement || '';
-  const description = latestExp.apercu || latestExp.overview || latestExp.Description || '';
-  const techList = toArray(latestExp.technologies || latestExp.Technologies);
+  if (experiences.length === 0) return null;
 
   return (
-    <section id="experience" className="w-full max-w-6xl mx-auto py-20 px-4 sm:px-8 border-t border-purple-500/10">
+    <section id="experience" className="w-full max-w-6xl mx-auto py-20 px-4 sm:px-8 border-t border-purple-200/40">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
         <div>
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-pink-400 block mb-2">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-pink-600 block mb-2">
             PARCOURS PROFESSIONNEL
           </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white">
-            Dernière Expérience<span className="text-pink-500">.</span>
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900">
+            Dernières Expériences<span className="text-pink-500">.</span>
           </h2>
         </div>
 
         <Link
           href="/experiences"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-purple-300/20 text-purple-200 text-xs font-mono hover:border-pink-500 hover:text-pink-300 transition-all backdrop-blur-md self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-purple-200 text-gray-700 text-xs font-mono hover:border-pink-500 hover:text-pink-600 transition-all shadow-sm self-start sm:self-auto"
         >
           Voir tout le parcours →
         </Link>
       </div>
 
-      <div className="relative rounded-3xl bg-[#161224]/80 border border-purple-500/20 p-6 sm:p-8 backdrop-blur-xl hover:border-pink-500/40 transition-all shadow-xl">
-        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
-          <div className="space-y-4 flex-1">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs font-mono">
-                {latestExp.type || 'Stage Développement IT'}
-              </span>
-              <span className="text-xs font-mono text-purple-300/60">
-                {company} {location ? `• ${location}` : ''}
-              </span>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {experiences.map((exp) => {
+          const technologies = Array.isArray(exp.technologies) 
+            ? exp.technologies 
+            : JSON.parse(exp.technologies || '[]');
 
-            <h3 className="text-2xl font-bold text-white">{title}</h3>
-
-            <p className="text-sm font-mono text-purple-200/80 leading-relaxed max-w-3xl">
-              {description}
-            </p>
-
-            {techList.length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {techList.map((tech: string, i: number) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1 rounded-lg bg-white/5 border border-purple-300/10 text-purple-300 text-[11px] font-mono"
-                  >
-                    {tech}
+          return (
+            <div 
+              key={exp.id} 
+              className="flex flex-col justify-between rounded-3xl bg-white/85 border border-purple-100 p-6 sm:p-8 shadow-md hover:shadow-xl transition-all"
+            >
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="px-3 py-1 rounded-full bg-pink-50 text-pink-600 border border-pink-200 text-xs font-mono font-medium uppercase">
+                    {exp.type || 'STAGE'}
                   </span>
-                ))}
-              </div>
-            )}
-          </div>
+                  <span className="text-xs font-mono text-pink-600 font-bold">
+                    {exp.period}
+                  </span>
+                </div>
 
-          <Link
-            href={`/experiences/${latestExp.id}`}
-            className="shrink-0 px-6 py-3 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-300 hover:bg-pink-500 hover:text-white text-xs font-mono transition-all text-center"
-          >
-            Détails de la mission
-          </Link>
-        </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">{exp.title}</h3>
+                  <p className="text-xs font-mono text-gray-500">
+                    {exp.company} {exp.location ? `• ${exp.location}` : ''}
+                  </p>
+                </div>
+
+                <p className="text-sm font-mono text-gray-600 leading-relaxed line-clamp-3">
+                  {exp.apercu}
+                </p>
+
+                {technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {technologies.map((tech: string, i: number) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-1 rounded-lg bg-pink-50/60 border border-pink-100 text-pink-700 text-[11px] font-mono"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-purple-100 flex justify-end">
+                <Link
+                  href={`/experiences/${exp.id}`}
+                  className="inline-flex items-center gap-1 text-xs font-mono font-bold text-pink-600 hover:text-pink-700"
+                >
+                  En savoir plus →
+                </Link>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
 }
+
+export const revalidate = 0;
